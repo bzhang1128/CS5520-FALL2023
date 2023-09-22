@@ -1,13 +1,49 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import Header from './components/Header';
+import { useState } from 'react';
+import Input from './components/input';
 
 export default function App() {
+  const [text, setText] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const name = "My Personal App";
+  //update this callback function to receive the changed text and store it in text state
+  
+  function changeDataHandler(data) {
+    console.log("callback function called", data);
+    setText(data);
+    makeModalInvisible();
+  }
+  function makeModalVisible() {
+    setIsModalVisible(true);
+  }
+
+  function makeModalInvisible() {
+    setIsModalVisible(false);
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up {name} to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      {/* <Text>Open up App.js to start working on {name}!</Text> */}
+      {/* render header component here and pass a props with the name variable as value */}
+      <View style={styles.topContainer}>
+        <Header appName={name}/>
+        <StatusBar style="auto" />
+        <Input 
+          changedHandler={changeDataHandler}
+          modalVisibility={isModalVisible}
+          hideModal={makeModalInvisible}
+        />
+        <Button 
+          title="Add a goal" 
+          onPress={() => makeModalVisible()} 
+        />
+      </View>
+      <View style={styles.bottomContainer}>
+        <Text>{text}</Text>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -18,4 +54,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  topContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  bottomContainer: {
+    flex: 4,
+    backgroundColor: '#a59',
+    alignItems: "center",
+    justifyContent: "center",
+  }
 });
