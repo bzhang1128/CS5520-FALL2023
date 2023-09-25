@@ -8,7 +8,7 @@ const GameScreen = ({ userData, onLogout }) => {
   const [randomNumber, setRandomNumber] = useState(null);
   const [userGuess, setUserGuess] = useState('');
   const [guessCount, setGuessCount] = useState(0);
-  const [isCorrectGuess, setIsCorrectGuess] = useState(null);
+  const [isCorrectGuess, setIsCorrectGuess] = useState(false);
 
   useEffect(() => {
     const random = Math.floor(Math.random() * (21 - 10) + 10);
