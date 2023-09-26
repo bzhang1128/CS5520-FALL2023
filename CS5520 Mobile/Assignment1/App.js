@@ -39,7 +39,6 @@ export default function App() {
       )}
       {currentScreen === 'game' && (
         <GameScreen
-          userData={userData}
           onLogout={handleLogoutPress}
         />
       )}
