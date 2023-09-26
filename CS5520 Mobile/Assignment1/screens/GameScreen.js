@@ -1,14 +1,15 @@
-import { View, Text, Image, StyleSheet, Modal, Alert } from 'react-native'
+import { View, Text, Image, StyleSheet, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Card from '../components/Card';
 import Button from '../components/Button';
 import CustomTextInput from '../components/TextInput';
 
-const GameScreen = ({ userData, onLogout }) => {
+const GameScreen = ({ onLogout }) => {
   const [randomNumber, setRandomNumber] = useState(null);
   const [userGuess, setUserGuess] = useState('');
   const [guessCount, setGuessCount] = useState(0);
   const [isCorrectGuess, setIsCorrectGuess] = useState(false);
+  const [isGuessVisible, setIsGuessVisible] = useState(true);
 
   useEffect(() => {
     const random = Math.floor(Math.random() * (21 - 10) + 10);
@@ -29,6 +30,7 @@ const GameScreen = ({ userData, onLogout }) => {
     } else {
       setGuessCount(guessCount + 1);
     }
+    setIsGuessVisible(false);
   };
 
   const handleReset = () => {
@@ -38,6 +40,7 @@ const GameScreen = ({ userData, onLogout }) => {
   const handleTryAgain = () => {
     setUserGuess('');
     setIsCorrectGuess(false);
+    setIsGuessVisible(true);
   }
 
   const handleNewGame = () => {
@@ -47,6 +50,7 @@ const GameScreen = ({ userData, onLogout }) => {
     setIsCorrectGuess(false);
     const random = Math.floor(Math.random() * (21 - 10) + 10);
     setRandomNumber(random);
+    setIsGuessVisible(true);
   };
 
   return (
@@ -56,10 +60,9 @@ const GameScreen = ({ userData, onLogout }) => {
       </View>
       <Text style={styles.title}>Guess A Number Between 10 - 20</Text>
       <Card>
-        <Text style={styles.title}>Enter A Number</Text>
-        {randomNumber !== null ? (
+        {isGuessVisible ? (
           <View alignItems='center'>
-            <Text>Guess a number between 10 and 20:</Text>
+            <Text style={styles.title}>Enter A Number</Text>
             <CustomTextInput
               style={styles.input}
               placeholder="Your Guess"
@@ -75,7 +78,10 @@ const GameScreen = ({ userData, onLogout }) => {
                 <Button title="Confirm" onPress={handleConfirm} />
               </View>
             </View>
-            {guessCount > 0 && isCorrectGuess ? (
+          </View>
+        ) : (
+          <View>
+            {isCorrectGuess ? (
               <View alignItems='center'>
                 <Text>Congratulations! You guessed correct!</Text>
                 <Text>Number of guesses: {guessCount}</Text>
@@ -85,23 +91,14 @@ const GameScreen = ({ userData, onLogout }) => {
                 />
                 <Button title="New Game" onPress={handleNewGame} />
               </View>
-            ) : ( 
+            ) : (
               <View alignItems='center'>
-                {guessCount > 0 && (
-                  <Text>Wrong guess! Try again.</Text>
-                )}
-                {guessCount >0 && (
-                  <Image source={require('../assets/sadface.png')} style={styles.image} />
-                )}
-                {guessCount > 0 && (
-                  <Button title="Try Again" onPress={handleTryAgain} />
-                )}
-                
+                <Text>Wrong guess! Try again.</Text>
+                <Image source={require('../assets/sadface.png')} style={styles.image} />
+                <Button title="Try Again" onPress={handleTryAgain} />
               </View>
             )}
           </View>
-        ) : (
-          <Text>Loading...</Text>
         )}
       </Card>
     </View>
