@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: 'row',
-    margin: 10,
+    margin: 30,
     justifyContent: 'center',
   },
   checkboxLabel: {
