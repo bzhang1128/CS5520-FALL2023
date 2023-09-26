@@ -100,13 +100,14 @@ const StartingScreen = ({ onStart }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute', 
+    top: 100, 
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 50,
   },
   label: {
     color: 'blue',
