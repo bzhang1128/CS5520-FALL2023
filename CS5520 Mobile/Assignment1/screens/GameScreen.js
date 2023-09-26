@@ -58,11 +58,11 @@ const GameScreen = ({ onLogout }) => {
       <View style={styles.logoutButton}>
         <Button title="Logout" onPress={onLogout} />
       </View>
-      <Text style={styles.title}>Guess A Number Between 10 - 20</Text>
+      <Text style={styles.title}>Guess A Number Between 10 & 20</Text>
       <Card>
         {isGuessVisible ? (
           <View alignItems='center'>
-            <Text style={styles.title}>Enter A Number</Text>
+            <Text style={styles.label}>Enter a Number</Text>
             <CustomTextInput
               style={styles.input}
               placeholder="Your Guess"
@@ -83,8 +83,8 @@ const GameScreen = ({ onLogout }) => {
           <View>
             {isCorrectGuess ? (
               <View alignItems='center'>
-                <Text>Congratulations! You guessed correct!</Text>
-                <Text>Number of guesses: {guessCount}</Text>
+                <Text style={styles.text}>You guessed correct!</Text>
+                <Text style={styles.text}>Number of guesses: {guessCount}</Text>
                 <Image
                   source={{ uri: `https://picsum.photos/id/${randomNumber}/100/100` }}
                   style={styles.image}
@@ -93,7 +93,7 @@ const GameScreen = ({ onLogout }) => {
               </View>
             ) : (
               <View alignItems='center'>
-                <Text>Wrong guess! Try again.</Text>
+                <Text style={styles.text}>You did not guess correct!</Text>
                 <Image source={require('../assets/sadface.png')} style={styles.image} />
                 <Button title="Try Again" onPress={handleTryAgain} />
               </View>
@@ -113,9 +113,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
+    color: 'blue',
     fontWeight: 'bold',
     marginBottom: 20,
+    position: 'absolute',
+    top: 250,
+  },
+  label: {
+    color: 'blue',
+    fontSize: 18,
+    textAlign: 'left',
+    marginBottom: 10,
+  },
+  text: {
+    color: 'purple',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   image: {
     width: 100,
@@ -126,8 +140,8 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     position: 'absolute', 
-    top: 100, 
-    right: 10,
+    top: 150, 
+    right: 0,
   },
   buttonContainer: {
     justifyContent: 'center',
