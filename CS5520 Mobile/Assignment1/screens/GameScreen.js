@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Card from '../components/Card';
 import Button from '../components/Button';
 import CustomTextInput from '../components/TextInput';
+import { colors } from '../utilities/colors';
 
 const GameScreen = ({ onLogout }) => {
   const [randomNumber, setRandomNumber] = useState(null);
@@ -110,24 +111,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: colors.gameContainer,
   },
   title: {
     fontSize: 20,
-    color: 'blue',
+    color: colors.gameLabel,
     fontWeight: 'bold',
     marginBottom: 20,
     position: 'absolute',
     top: 250,
   },
   label: {
-    color: 'blue',
+    color: colors.gameLabel,
     fontSize: 18,
     textAlign: 'left',
     marginBottom: 10,
   },
   text: {
-    color: 'purple',
+    color: colors.gameText,
     fontSize: 18,
     fontWeight: 'bold',
   },
