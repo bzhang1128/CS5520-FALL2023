@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import StaringScreen from './screens/StartingScreen';
 import ConfirmScreen from './screens/ConfirmScreen';
 import GameScreen from './screens/GameScreen';
+import { colors } from '../utilities/colors';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('starting');
@@ -50,7 +51,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.backgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
   },
