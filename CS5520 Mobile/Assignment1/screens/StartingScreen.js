@@ -6,6 +6,7 @@ import CustomTextInput from '../components/TextInput';
 import Button from '../components/Button';
 import ErrorText from '../components/ErrorText';
 import { isNameValid, isEmailValid, isPhoneValid } from '../utilities/validation';
+import { colors } from '../utilities/colors';
 
 const StartingScreen = ({ onStart }) => {
   const [name, setName] = useState('');
@@ -108,10 +109,10 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 50,
-    color: 'purple',
+    color: colors.startTitle,
   },
   label: {
-    color: 'blue',
+    color: colors.startLabel,
     fontSize: 18,
     textAlign: 'left',
     marginBottom: 10,
