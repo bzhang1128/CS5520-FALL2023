@@ -15,6 +15,7 @@ const StartingScreen = ({ onStart }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // Validate user inputs
   const handleStartPress = () => {
     const inputErrors = {};
 
@@ -30,14 +31,17 @@ const StartingScreen = ({ onStart }) => {
       inputErrors.phone = 'Please enter a valid phone number.';
     }
 
+    //If there are any errors, update the state to display them
     if (Object.keys(inputErrors).length > 0) {
       setErrors(inputErrors);
       return;
     }
 
+    //Otherwise, proceed to the next screen
     onStart({ name, email, phone });
   };
 
+  // Clear all user inputs and errors
   const handleResetPress = () => {
     setName('');
     setEmail('');
