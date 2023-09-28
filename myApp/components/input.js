@@ -7,7 +7,6 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { colors } from "../colors";
 
 // receive the modalIsvisible prop
 const Input = ({ changedHandler, modalVisiblity, hideModal }) => {
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: colors.mdoal,
+    backgroundColor: 'white',
     alignItems: "center",
     justifyContent: "center",
   },
