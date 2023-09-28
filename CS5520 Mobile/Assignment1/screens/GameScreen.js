@@ -12,6 +12,7 @@ const GameScreen = ({ onLogout }) => {
   const [isCorrectGuess, setIsCorrectGuess] = useState(false);
   const [isGuessVisible, setIsGuessVisible] = useState(true);
 
+  // Generate a random number between 10 and 20 
   useEffect(() => {
     const random = Math.floor(Math.random() * (21 - 10) + 10);
     setRandomNumber(random);
@@ -25,6 +26,7 @@ const GameScreen = ({ onLogout }) => {
       return;
     }
 
+    //check if the guess and the random number are identical
     if (guess === randomNumber) {
       setIsCorrectGuess(true);
       setGuessCount(guessCount + 1);
@@ -34,16 +36,19 @@ const GameScreen = ({ onLogout }) => {
     setIsGuessVisible(false);
   };
 
+  // Clear user input
   const handleReset = () => {
     setUserGuess('');
   }
 
+  // Clear user input and go back to guess page
   const handleTryAgain = () => {
     setUserGuess('');
     setIsCorrectGuess(false);
     setIsGuessVisible(true);
   }
 
+  // Clear all existing data and generate a new random number for a new game
   const handleNewGame = () => {
     setRandomNumber(null);
     setUserGuess('');
