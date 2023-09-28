@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Modal } from 'react-native'
 import React from 'react'
 import Card from '../components/Card';
 import Button from '../components/Button';
+import { colors } from '../utilities/colors';
 
 const ConfirmScreen = ({ userData, onEdit, onContinue }) => {
   return (
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   userdata: {
-    color: 'brown',
+    color: colors.confirmUserData,
     marginTop: 20,
   },
   buttonContainer: {
