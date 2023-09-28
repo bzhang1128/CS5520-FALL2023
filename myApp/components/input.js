@@ -1,74 +1,87 @@
-import { Button, Modal, StyleSheet, Text, TextInput, View, Image } from 'react-native'
-import React from 'react'
-import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  StyleSheet,
+  Image,
+  TextInput,
+  View,
+} from "react-native";
+import React, { useState } from "react";
+import { colors } from "../colors";
 
-const Input = ({ changedHandler, modalVisibility, hideModal }) => {
-  const [text, setText] = useState("");
-
+// receive the modalIsvisible prop
+const Input = ({ changedHandler, modalVisiblity, hideModal }) => {
+  const [enteredText, setEnteredText] = useState("");
+  //update this callback function to receive the changed text and store it in text state variable
   function changeTextHandler(changedText) {
     console.log(changedText);
-    setText(changedText);
-  }
-
-  function confirmHandler() {
-    // call a function that is passed to me from App.js and pass the enteredText via it
-    changedHandler(text);
-    // clear the textinput
-    setText("");
+    setEnteredText(changedText);
   }
 
   function cancelHandler() {
     hideModal();
   }
-
+  function confirmHandler() {
+    // call a function that is passed to me from App.js and pass the enteredText via it
+    changedHandler(enteredText);
+    //clear the textinput
+    setEnteredText("");
+  }
   return (
-    <Modal visible={modalVisibility}>
+    // use the new peop to show the modal
+    <Modal visible={modalVisiblity}>
       <View style={styles.container}>
-        <Image source={{uri:'https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1500w,f_auto,q_auto:best/newscms/2023_14/3601858/230406-dog-food-kb-2x1.jpg'}} style={styles.image}/>
-        <Image source={require("../assets/image.jpeg")} style={styles.image} />
-        <TextInput 
-        style={styles.input}
-        onChangeText={changeTextHandler}
-        value={text}
+        <Image
+          source={{
+            uri: "https://cdn-icons-png.flaticon.com/512/2617/2617812.png",
+          }}
+          style={styles.image}
+        />
+        <Image source={require("../assets/goal.png")} style={styles.image} />
+
+        <TextInput
+          style={styles.input}
+          onChangeText={changeTextHandler}
+          value={enteredText}
         />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <Button title="Confirm" onPress={confirmHandler} />
+            <Button color="red" title="Cancel" onPress={cancelHandler} />
           </View>
           <View style={styles.button}>
-            <Button title='Cancel' onPress ={cancelHandler} />  
+            <Button
+              disabled={!enteredText}
+              title="Confirm"
+              onPress={confirmHandler}
+            />
           </View>
         </View>
       </View>
     </Modal>
-  )
-}
+  );
+};
 
-export default Input
+export default Input;
 
 const styles = StyleSheet.create({
   input: {
-    borderColor: "orange",
-    borderWidth: 2,
+    borderBottomColor: "purple",
+    borderBottomWidth: 2,
     width: 200,
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.mdoal,
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: 100,
     height: 100,
-    margin: 10,
   },
-  buttonContainer: {
-    flexDirection: "row",
-    marginTop: 15,
-  },
+  buttonContainer: { flexDirection: "row", marginTop: 15 },
   button: {
     marginHorizontal: 10,
     width: "30%",
-  }
-})
+  },
+});
