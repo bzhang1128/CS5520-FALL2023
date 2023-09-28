@@ -10,15 +10,18 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState('starting');
   const [userData, setUserData] = useState(null);
 
+  // Handle Start button press from Starting Screen
   const handleStartPress = (data) => {
     setUserData(data);
     setCurrentScreen('confirm');
   };
 
+  // Handle Continue button press from Confirm Screen
   const handleContinuePress = () => {
     setCurrentScreen('game');
   };
 
+  // Handle Logout button press from Game Screen
   const handleLogoutPress = () => {
     setCurrentScreen('starting');
     setUserData(null); 
