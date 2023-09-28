@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import StaringScreen from './screens/StartingScreen';
 import ConfirmScreen from './screens/ConfirmScreen';
 import GameScreen from './screens/GameScreen';
-import { colors } from '../utilities/colors';
+import { colors } from './utilities/colors';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('starting');
