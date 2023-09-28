@@ -1,5 +1,6 @@
 import { StyleSheet, TouchableOpacity, Text } from 'react-native'
 import React from 'react'
+import { colors } from '../utilities/colors';
 
 const Button = ({ title, onPress, disabled }) => {
   return (
@@ -22,9 +23,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   disabledButton: {
-    backgroundColor: '#D3D3D3',
+    backgroundColor: colors.disabledButton,
   },
   buttonText: {
-    color: 'blue', 
+    color: colors.buttonText, 
   },
 });
