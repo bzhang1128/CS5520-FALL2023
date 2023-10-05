@@ -32,11 +32,11 @@ const Input = ({ changedHandler, modalVisiblity, hideModal }) => {
       <View style={styles.container}>
         <Image
           source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/2617/2617812.png",
+            uri:'https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1500w,f_auto,q_auto:best/newscms/2023_14/3601858/230406-dog-food-kb-2x1.jpg',
           }}
           style={styles.image}
         />
-        <Image source={require("../assets/goal.png")} style={styles.image} />
+        <Image source={require("../assets/image.jpeg")} style={styles.image} />
 
         <TextInput
           style={styles.input}
@@ -67,16 +67,17 @@ const styles = StyleSheet.create({
     borderBottomColor: "purple",
     borderBottomWidth: 2,
     width: 200,
+    marginTop: 50,
   },
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'lightpink',
     alignItems: "center",
     justifyContent: "center",
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
   },
   buttonContainer: { flexDirection: "row", marginTop: 15 },
   button: {
