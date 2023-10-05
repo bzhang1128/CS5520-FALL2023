@@ -44,6 +44,22 @@ export default function App() {
   function goalDeleteHandler(deletedId) {
     console.log("I was deleted ", deletedId);
     //use array.filter to remove the item with deletedId
+    // keep the items where goal's id is not deletedId
+    // const newArray = goals.filter((goal) => {
+    //   return goal.id !== deletedId;
+    // })
+    // setGoals(newArray);
+    //more concise
+    setGoals((prevGoals) => {
+      return prevGoals.filter((goal) => {
+        return goal.id !== deletedId;
+      });
+    });
+  }
+
+  function goalPressHandler(pressedId) {
+    console.log("I was pressed ", pressedId);
+    // we should navigate to a new component and show goal's details
   }
 
   return (
@@ -80,7 +96,13 @@ export default function App() {
           contentContainerStyle={styles.contentContainerStyle}
           data={goals}
           renderItem={({ item }) => {
-            return <GoalItem goal={item} deleteHandler={goalDeleteHandler} />;
+            return (
+              <GoalItem
+                goal={item}
+                deleteHandler={goalDeleteHandler}
+                pressHandler={goalPressHandler}
+              />
+            );
 
             // return <Text style={styles.text}>{item.text}</Text>;
           }}

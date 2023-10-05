@@ -1,17 +1,34 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Pressable } from "react-native";
 import React from "react";
 
-export default function GoalItem({ goal, deleteHandler }) {
+export default function GoalItem({ goal, deleteHandler, pressHandler }) {
   function deletePressed() {
     deleteHandler(goal.id);
   }
+
+  function goalPressed() {
+    pressHandler(goal.id);
+  }
+
   return (
-    <View style={styles.goalContainer}>
+    <Pressable
+      // style={styles.goalContainer}
+      onPress={goalPressed}
+      android_ripple={{ color: "#f00" }}
+      style={({ pressed }) => {
+        return [
+          {
+            backgroundColor: pressed? "#add" : "#aaa",
+            opacity: pressed? 0.5 : 1,
+          },
+        ];
+      }}
+    >
       <Text style={styles.text}>{goal.text}</Text>
       {/* <View style={{ height: "100%" }}> */}
       <Button color="black" title="X" onPress={deletePressed} />
       {/* </View> */}
-    </View>
+    </Pressable>
   );
 }
 
