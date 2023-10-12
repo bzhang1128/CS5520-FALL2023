@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Button, Pressable } from "react-native";
 import React from "react";
 import PressableButton from "./PressableButton";
 import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
 export default function GoalItem({ goal, deleteHandler, pressHandler }) {
   function deletePressed() {
@@ -9,37 +10,26 @@ export default function GoalItem({ goal, deleteHandler, pressHandler }) {
   }
 
   function goalPressed() {
-    pressHandler(goal.id);
+    pressHandler(goal);
   }
 
   return (
-    <Pressable
-      // style={styles.goalContainer}
-      onPress={goalPressed}
+    <PressableButton
+      pressedFunction={goalPressed}
       // android_ripple={{ color: "#f00" }}
       defaultStyle={styles.goalContainer}
       pressedStyle={styles.goalPressed}
-      style={({ pressed }) => {
-        return [
-          {
-            backgroundColor: pressed? "#aaa" : "beige",
-            opacity: pressed? 0.5 : 1,
-          },
-        ];
-      }}
     >
       <Text style={styles.text}>{goal.text}</Text>
-      {/* <View style={{ height: "100%" }}> */}
       {/* <Button color="black" title="X" onPress={deletePressed} /> */}
       <PressableButton
         pressedFunction={deletePressed}
-        defaultStyle={{ backgroundColor: "lightgray", padding: 5 }}
-        pressedStyle={{ backgroundColor: "pink", opacity: 0.6 }}
+        defaultStyle={{ backgroundColor: "#bbb", padding: 5 }}
+        pressedStyle={{ opacity: 0.6 }}
       >
-        <AntDesign name="delete" size={24} color="black" />
+        <Ionicons name="trash" size={24} color="black" />
       </PressableButton>
-      {/* </View> */}
-    </Pressable>
+    </PressableButton>
   );
 }
 
