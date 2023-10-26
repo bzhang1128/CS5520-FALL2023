@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   header: {
     color: "darkslateblue",
     borderColor: "darkslateblue",
-    borderWidth: 3,
+    borderWidth: Platform.os === "ios" ? 0 : 3,
     fontSize: windowWidth > 400 ? 20 : 25,
     fontWeight: "bold",
     padding: 5,
