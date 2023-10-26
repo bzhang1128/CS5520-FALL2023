@@ -2,6 +2,7 @@ import { View, Text, Button } from "react-native";
 import React, { useEffect, useState } from "react";
 import PressableButton from "../components/PressableButton";
 import { Ionicons } from '@expo/vector-icons';
+import GoalUsers from "../components/GoalUsers";
 
 export default function GoalDetails({ navigation, route }) {
   //   console.log(route.params.pressedGoal.text);
@@ -33,6 +34,7 @@ export default function GoalDetails({ navigation, route }) {
         <Text>No extra data</Text>
       )}
       {isWarned && <Button title=" More" onPress={() => navigation.push("Details")} />}
+      <GoalUsers />
     </View>
   );
 }
