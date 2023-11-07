@@ -1,0 +1,16 @@
+export const colors={
+  backgroundColor: '#fff',
+  startTitle: 'purple',
+  startLabel: 'blue',
+  gameContainer: 'white',
+  gameLabel: 'blue',
+  gameText: 'purple',
+  confirmUserData: 'brown',
+  disabledButton: '#D3D3D3',
+  buttonText: 'blue',
+  cardBackground: 'beige',
+  cardShadow: 'black',
+  errorText: 'red',
+  textInputBorderColor: 'beige',
+  textInputBorderBottomColor: '#000',
+}
