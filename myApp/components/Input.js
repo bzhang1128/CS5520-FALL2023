@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
+import ImageManager from "./ImageManager";
 
 // receive the modalIsvisible prop
 const Input = ({ changedHandler, modalVisiblity, hideModal }) => {
@@ -43,6 +44,7 @@ const Input = ({ changedHandler, modalVisiblity, hideModal }) => {
           onChangeText={changeTextHandler}
           value={enteredText}
         />
+        <ImageManager />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
             <Button color="red" title="Cancel" onPress={cancelHandler} />

@@ -8,26 +8,38 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
+  Alert,
 } from "react-native";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import Input from "../components/Input";
 import GoalItem from "../components/GoalItem";
-import { database } from "../firebase/firebaseSetup";
-import { writeToDB } from "../firebase/firebasehelper";
-import { collection, onSnapshot, firestore } from 'firebase/firestore';
+import { auth, database } from "../firebase/firebaseSetup";
+import { deleteFromDB, writeToDB } from "../firebase/firebasehelper";
+import {
+  collection,
+  onSnapshot,
+  firestore,
+  where,
+  query,
+} from "firebase/firestore";
 
 export default function Home({ navigation }) {
   console.log(database);
-  
+
   const [text, setText] = useState("");
   const [goals, setGoals] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const name = "My Awesome App";
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(
+    const q = query(
       collection(database, "goals"),
+      where("user", "==", auth.currentUser.uid)
+    );
+    const unsubscribe = onSnapshot(
+      q,
+      // collection(database, "goals"),
       (querySnapshot) => {
         let newArray = [];
 
@@ -45,6 +57,12 @@ export default function Home({ navigation }) {
           // }
         }
         setGoals(newArray);
+      },
+      (err) => {
+        console.log(err);
+        if (err.code === "permission-denied") {
+          Alert.alert("You don't have permission");
+        }
       }
     );
     return () => {
@@ -52,17 +70,42 @@ export default function Home({ navigation }) {
     };
   }, []);
 
-  function changedDataHandler(data) {
-    const newGoal = { text: data, id: Math.random() };
-    // const newArray = [...goals, newGoal];
-    // setGoals(newArray)
-    setGoals((prevGoals) => {
-      return [...prevGoals, newGoal];
-    });
-    //write this new goal to db
-    writeToDB(newGoal);
-    //use the received data to update the text state variable
-    setText(data);
+  async function uploadImageToStorage(uri) {
+    try {
+      const response = await fetch(uri);
+      const imageBlob = await response.blob();
+      const imageName = uri.substring(uri.lastIndexOf("/") + 1);
+      const imageRef = await ref(storage, `images/${imageName}`);
+      const uploadResult = await uploadBytesResumable(imageRef, imageBlob);
+      return uploadResult.metadata.fullPath;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function changedDataHandler(data) {
+    // receive data={text:..,uri:..} from input
+    let imageRef = null;
+    if (data.uri) {
+      imageRef = await uploadImageToStorage(data.uri);
+    }
+    // const newGoal = { text: data, id: Math.random() };
+    // // const newArray = [...goals, newGoal];
+    // // setGoals(newArray)
+    // setGoals((prevGoals) => {
+    //   return [...prevGoals, newGoal];
+    // });
+    // // write this new goal to db
+    // writeToDB(newGoal);
+    // //use the received data to update the text state variable
+    // setText(data);
+
+    if (imageRef) {
+      writeToDB({ text: data.text, imageRef: imageRef });
+    } else {
+      writeToDB({ text: data.text });
+    }
+
     makeModalInvisible();
   }
 
@@ -95,11 +138,12 @@ export default function Home({ navigation }) {
     //   })
     // );
     // using updater function to make sure correct updated value is given in goals
-    setGoals((prevGoals) => {
-      return prevGoals.filter((goal) => {
-        return goal.id != deletedId;
-      });
-    });
+    // setGoals((prevGoals) => {
+    //   return prevGoals.filter((goal) => {
+    //     return goal.id != deletedId;
+    //   });
+    // });
+    deleteFromDB(deletedId);
   }
 
   return (
