@@ -61,7 +61,9 @@ export default function Home({ navigation }) {
       (err) => {
         console.log(err);
         if (err.code === "permission-denied") {
-          Alert.alert("You don't have permission");
+          Alert.alert(
+            "You don't have permission or there is an error in your querys"
+          );
         }
       }
     );
