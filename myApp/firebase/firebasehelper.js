@@ -1,11 +1,9 @@
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
 import { database } from "./firebaseSetup";
 import { auth } from "./firebaseSetup";
 
 export async function writeToDB(goal) {
   try {
-    console.log(auth.currentUser.uid);
-    // Add a new document with a generated id.
     const docRef = await addDoc(collection(database, "goals"), {
       ...goal,
       user: auth.currentUser.uid,

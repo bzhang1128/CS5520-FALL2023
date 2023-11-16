@@ -12,6 +12,7 @@ import ImageManager from "./ImageManager";
 // receive the modalIsvisible prop
 const Input = ({ changedHandler, modalVisiblity, hideModal }) => {
   const [enteredText, setEnteredText] = useState("");
+  const [takenImageUri, setTakenImageUri] = useState("");
   //update this callback function to receive the changed text and store it in text state variable
   function changeTextHandler(changedText) {
     console.log(changedText);
@@ -23,10 +24,15 @@ const Input = ({ changedHandler, modalVisiblity, hideModal }) => {
   }
   function confirmHandler() {
     // call a function that is passed to me from App.js and pass the enteredText via it
-    changedHandler(enteredText);
+    changedHandler({ text: enteredText, uri: takenImageUri });
     //clear the textinput
     setEnteredText("");
   }
+  function passImageUri(uri) {
+    // store the uri in a state variable
+    setTakenImageUri(uri);
+  }
+
   return (
     // use the new peop to show the modal
     <Modal visible={modalVisiblity}>
@@ -44,7 +50,7 @@ const Input = ({ changedHandler, modalVisiblity, hideModal }) => {
           onChangeText={changeTextHandler}
           value={enteredText}
         />
-        <ImageManager />
+        <ImageManager passImageUri={passImageUri} />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
             <Button color="red" title="Cancel" onPress={cancelHandler} />

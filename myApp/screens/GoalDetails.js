@@ -1,14 +1,27 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Image, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import PressableButton from "../components/PressableButton";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import GoalUsers from "../components/GoalUsers";
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../firebase/firebaseSetup";
 
 export default function GoalDetails({ navigation, route }) {
-  //   console.log(route.params.pressedGoal.text);
   const [isWarned, setIsWarned] = useState(false);
+  const [downalodURL, setDownloadURL] = useState("");
+  useEffect(() => {
+    async function getURL() {
+      console.log(route.params.pressedGoal.imageRef);
+      const imageUriRef = ref(storage, route.params.pressedGoal.imageRef);
+      const url = await getDownloadURL(imageUriRef);
+      setDownloadURL(url);
+    }
+    if (route.params.pressedGoal.imageRef) {
+      getURL();
+    }
+  }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
@@ -24,8 +37,9 @@ export default function GoalDetails({ navigation, route }) {
           </PressableButton>
         );
       },
-    })
-  }, [navigation])
+    });
+  }, [navigation]);
+
   return (
     <View>
       {route.params ? (
@@ -33,8 +47,19 @@ export default function GoalDetails({ navigation, route }) {
       ) : (
         <Text>No extra data</Text>
       )}
-      {isWarned && <Button title=" More" onPress={() => navigation.push("Details")} />}
+      {isWarned && (
+        <Button title=" More" onPress={() => navigation.push("Details")} />
+      )}
+      {downalodURL && (
+        <Image source={{ uri: downalodURL }} style={styles.image} />
+      )}
       <GoalUsers />
     </View>
   );
 }
+const styles = StyleSheet.create({
+  image: {
+    width: 100,
+    height: 100,
+  },
+});

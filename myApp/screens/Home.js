@@ -14,7 +14,7 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import Input from "../components/Input";
 import GoalItem from "../components/GoalItem";
-import { auth, database } from "../firebase/firebaseSetup";
+import { auth, database, storage } from "../firebase/firebaseSetup";
 import { deleteFromDB, writeToDB } from "../firebase/firebasehelper";
 import {
   collection,
@@ -23,15 +23,12 @@ import {
   where,
   query,
 } from "firebase/firestore";
+import { ref, uploadBytesResumable } from "firebase/storage";
 
 export default function Home({ navigation }) {
-  console.log(database);
-
-  const [text, setText] = useState("");
   const [goals, setGoals] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const name = "My Awesome App";
-
   useEffect(() => {
     const q = query(
       collection(database, "goals"),
@@ -39,7 +36,6 @@ export default function Home({ navigation }) {
     );
     const unsubscribe = onSnapshot(
       q,
-      // collection(database, "goals"),
       (querySnapshot) => {
         let newArray = [];
 
@@ -77,31 +73,25 @@ export default function Home({ navigation }) {
       const response = await fetch(uri);
       const imageBlob = await response.blob();
       const imageName = uri.substring(uri.lastIndexOf("/") + 1);
-      const imageRef = await ref(storage, `images/${imageName}`);
+      const imageRef = ref(storage, `images/${imageName}`);
       const uploadResult = await uploadBytesResumable(imageRef, imageBlob);
       return uploadResult.metadata.fullPath;
     } catch (err) {
       console.log(err);
     }
   }
-
   async function changedDataHandler(data) {
-    // receive data={text:..,uri:..} from input
+    // recieve data={text:..,uri:,,} from input
     let imageRef = null;
     if (data.uri) {
       imageRef = await uploadImageToStorage(data.uri);
     }
-    // const newGoal = { text: data, id: Math.random() };
-    // // const newArray = [...goals, newGoal];
-    // // setGoals(newArray)
+
+    // const newArray = [...goals, newGoal];
+    // setGoals(newArray)
     // setGoals((prevGoals) => {
     //   return [...prevGoals, newGoal];
     // });
-    // // write this new goal to db
-    // writeToDB(newGoal);
-    // //use the received data to update the text state variable
-    // setText(data);
-
     if (imageRef) {
       writeToDB({ text: data.text, imageRef: imageRef });
     } else {
@@ -201,7 +191,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "pink",
+    backgroundColor: "#fff",
     // alignItems: "center",
     justifyContent: "center",
   },

@@ -1,38 +1,26 @@
-import { View, Text, Button } from "react-native";
-import React from "react";
+import { View, Image, Button, StyleSheet } from "react-native";
+import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
-export default function ImageManager() {
+export default function ImageManager({ passImageUri }) {
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
-  console.log(status);
+
+  const [imageUri, setImageUri] = useState("");
   const verifyPermission = async () => {
-    // first check the status.granted
-    // if true return true
-    // if false, ask for permission requestPermission
-    // return the granted property of the result
     if (status.granted) {
       return true;
-    } 
+    }
     const response = await requestPermission();
     return response.granted;
-    
   };
   const takeImageHandler = async () => {
     try {
-      // only lauch camera if I have permission
-      const hasPermission = verifyPermission();
-      // if (hasPermission) {
-      //   const result = await ImagePicker.launchCameraAsync({
-      //     mediaTypes: ImagePicker.MediaTypeOptions.All,
-      //     allowsEditing: true,
-      //     aspect: [4, 3],
-      //     quality: 1,
-      //   });
-      // }
+      const hasPermission = await verifyPermission();
       if (!hasPermission) {
         Alert.alert("You need to give access to the camera");
       }
       //   if hasPermission, launch the camera
+
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
       });
@@ -40,9 +28,10 @@ export default function ImageManager() {
       setImageUri(result.assets[0].uri);
       passImageUri(result.assets[0].uri);
     } catch (err) {
-      console.log("take image error:", err);
+      console.log("take image error ", err);
     }
   };
+
   return (
     <View>
       <Button onPress={takeImageHandler} title="Take an Image" />
@@ -50,7 +39,6 @@ export default function ImageManager() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   image: {
     width: 100,
