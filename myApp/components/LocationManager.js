@@ -1,4 +1,4 @@
-import { View, Button, StyleSheet, Image, Dimensions } from "react-native";
+import { View, Button, StyleSheet, Image, Dimensions, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { MAPS_API_KEY } from "@env";
