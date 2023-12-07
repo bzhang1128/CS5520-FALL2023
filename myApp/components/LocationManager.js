@@ -1,8 +1,16 @@
-import { View, Button, StyleSheet, Image, Dimensions, Alert } from "react-native";
+import {
+  View,
+  Button,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Alert,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { MAPS_API_KEY } from "@env";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { saveUserInfo, getUserInfo } from "../firebase/firebasehelper";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -12,6 +20,23 @@ export default function LocationManager() {
 
   const [status, requestPermission] = Location.useForegroundPermissions();
   const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    //call getUserInfo and if there is location field
+    // call setLocation
+    async function getUserLocation() {
+      try {
+        const data = await getUserInfo();
+        console.log(data);
+        if (data.location) {
+          setLocation(data.location);
+        }
+      } catch (err) {
+        console.log("get user location ", err);
+      }
+    }
+    getUserLocation();
+  }, []);
 
   useEffect(() => {
     if (route.params) {
@@ -44,8 +69,15 @@ export default function LocationManager() {
     }
   }
   const chooseLocationHandler = () => {
-    navigation.navigate("Map");
+    // pass location to Map.js
+    navigation.navigate("Map", { initialLocation: location });
   };
+
+  const saveLocationHandler = async () => {
+    await saveUserInfo({ location: location });
+    // navigation.navigate("Home");
+  };
+
   return (
     <View>
       <Button title="Locate Me!" onPress={locateMeHandler} />
@@ -61,6 +93,11 @@ export default function LocationManager() {
           style={styles.image}
         />
       )}
+      <Button
+        disabled={!location}
+        title="Save Location"
+        onPress={saveLocationHandler}
+      />
     </View>
   );
 }

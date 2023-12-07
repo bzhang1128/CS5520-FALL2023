@@ -13,7 +13,19 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebaseSetup";
 import Map from "./components/Map";
 
+import * as Notifications from "expo-notifications";
+
 const Stack = createNativeStackNavigator();
+
+Notifications.setNotificationHandler({
+  handleNotification: async function (notification) {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: true,
+    };
+  },
+});
 
 const AuthStack = (
   <>
