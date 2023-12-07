@@ -1,4 +1,4 @@
-import { View, Text, Button } from "react-native";
+import { Linking } from "react-native";
 import React, { useEffect, useState } from "react";
 import Home from "./screens/Home";
 import { NavigationContainer } from "@react-navigation/native";
@@ -9,7 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Profile from "./components/Profile";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase/firebaseSetup";
 import Map from "./components/Map";
 
@@ -105,11 +105,31 @@ export default function App() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        // a valid user is logged in
         setIsUserLoggedIn(true);
       } else {
+        //before authentication or after logout
         setIsUserLoggedIn(false);
       }
     });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log(
+          "received response notification ",
+          response.notification.request.content.data.url
+        );
+        Linking.openURL(response.notification.request.content.data.url);
+      }
+    );
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   return (

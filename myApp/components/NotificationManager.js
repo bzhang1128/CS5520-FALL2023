@@ -5,7 +5,6 @@ import * as Notifications from "expo-notifications";
 export default function NotificationManager() {
   const verifyPermission = async () => {
     const status = await Notifications.getPermissionsAsync();
-    console.log(status);
     if (status.granted) {
       return true;
     }
@@ -18,20 +17,21 @@ export default function NotificationManager() {
     try {
       const hasPermission = await verifyPermission();
       if (!hasPermission) {
-        Alert.alert("You need to give access to Notification");
+        Alert.alert("You need to give permission to send notification");
         return;
       }
       Notifications.scheduleNotificationAsync({
         content: {
           title: "first notification",
           body: "OUR FIRST NOTIFICATION EVER!",
+          data: { url: "https://google.com" },
         },
         trigger: { seconds: 5 },
       });
     } catch (err) {
-      console.log("schedule notification err:", err);
+      console.log("schedule notification error ", err);
     }
-  }
+  };
   return (
     <View>
       <Button
