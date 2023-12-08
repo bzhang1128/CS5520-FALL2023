@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "65b31c6c-275c-4681-b65c-40c654d5e3a1"
+      }
+    },
+    "android": {
+      "package": "com.f02121.cs5520fall2023"
+    },
+    "ios": {
+      "bundleIdentifier": "com.f02121.cs5520fall2023"
+    }
+  }
+}

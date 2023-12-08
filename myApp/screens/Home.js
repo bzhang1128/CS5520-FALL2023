@@ -24,11 +24,40 @@ import {
   query,
 } from "firebase/firestore";
 import { ref, uploadBytesResumable } from "firebase/storage";
+import * as Notifications from "expo-notifications";
+import { verifyPermission } from "../components/NotificationManager";
 
 export default function Home({ navigation }) {
   const [goals, setGoals] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const name = "My Awesome App";
+
+  useEffect(() => {
+    async function getToken() {
+      try {
+        const hasPermission = await verifyPermission();
+        if (!hasPermission) {
+          Alert.alert("You need to give permission");
+          return;
+        }
+        if (Platform.OS === "android") {
+          await Notifications.setNotificationChannelAsync("default", {
+            name: "default",
+            importance: Notifications.AndroidImportance.MAX,
+          });
+        }
+
+        const pushToken = await Notifications.getExpoPushTokenAsync({
+          projectId: "65b31c6c-275c-4681-b65c-40c654d5e3a1",
+        });
+        console.log(pushToken.data);
+      } catch (err) {
+        console.log("push token ", err);
+      }
+    }
+    getToken();
+  }, []);
+
   useEffect(() => {
     const q = query(
       collection(database, "goals"),
